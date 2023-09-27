@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="col-12 col-md-6 mb-2">
-    <div class="card">
+    <div class="card shadow">
       <div class="card-header">
         Musica
       </div>
@@ -13,7 +13,7 @@
   </div>
 
   <div class="col-12 col-md-6 mb-2">
-    <div class="card">
+    <div class="card shadow">
       <div class="card-header">
         Films
       </div>
