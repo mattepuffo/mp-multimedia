@@ -1,22 +1,23 @@
 <script lang="ts">
-  import {onMount} from "svelte";
+    import {onMount} from "svelte";
+    import config from "../config";
 
-  // let libri: any[] = [];
+    // let libri: any[] = [];
 
-  let cntMusica = 0;
-  let cntFilms = 0;
+    let cntMusica = 0;
+    let cntFilms = 0;
 
-  onMount(async () => {
-    const urlMusica = "https://www.matteoferrone.it/api/canzoni/get.php";
-    const respMusica = await fetch(urlMusica);
-    const dataMusica = await respMusica.json();
-    cntMusica = dataMusica.data.length;
+    onMount(async () => {
+        const urlMusica = config.urlMusica;
+        const respMusica = await fetch(urlMusica);
+        const dataMusica = await respMusica.json();
+        cntMusica = dataMusica.data.length;
 
-    const urlFilms = "https://www.matteoferrone.it/api/video/get.php";
-    const respFilms = await fetch(urlFilms);
-    const dataFilms = await respFilms.json();
-    cntFilms = dataFilms.data.length;
-  });
+        const urlFilms = config.urlFilms;
+        const respFilms = await fetch(urlFilms);
+        const dataFilms = await respFilms.json();
+        cntFilms = dataFilms.data.length;
+    });
 </script>
 
 <div class="row">
