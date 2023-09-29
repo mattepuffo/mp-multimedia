@@ -1,13 +1,24 @@
 <script lang="ts">
-    // https://gridjs.io/docs/integrations/svelte?ref=madewithsvelte.com
-    import {DataHandler, Datatable, Th, type State} from '@vincjo/datatables/remote';
-    import {reload} from "../../api";
+  import config from "../../config";
+  import Grid from "gridjs-svelte";
 
-    export let data: any[];
-
-    const handler = new DataHandler(data, {rowsPerPage: 50});
-    const rows = handler.getRows();
-    handler.onChange((state: State) => reload(state));
+  const columns = [
+    {name: 'Titolo', sort: true},
+    {name: 'Autore', sort: true},
+    {name: 'Genere', sort: true},
+    {
+      name: 'Data aggiunta',
+      formatter: cell => {
+        return new Date(cell).toLocaleString('it-IT', {
+          day: "2-digit",
+          month: 'short',
+          year: 'numeric',
+          hour: "2-digit",
+          minute: "2-digit"
+        })
+      }
+    }
+  ];
 </script>
 
 <div class="row">
@@ -19,29 +30,17 @@
 
       <div class="card-body">
 
-        <Datatable {handler} search={false}>
-          <table class="table table-striped table-bordered table-hover">
-
-            <thead class="table-dark">
-              <tr>
-                <th>Titolo</th>
-                <th>Autore</th>
-                <th>Genere</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {#each $rows as row}
-                <tr>
-                  <td>{row.id}</td>
-                  <td><b>{row.name}</b></td>
-                  <td>{row.email}</td>
-                </tr>
-              {/each}
-            </tbody>
-
-          </table>
-        </Datatable>
+        <Grid {columns}
+              sort
+              search
+              pagination={{ enabled: true, limit: 50 }}
+              server={{
+                url: config.urlMusica,
+                then: data => data.data.map(item => {
+                    return [item.canzone_titolo, item.canzone_autore, item.canzone_genere, item.canzone_data_aggiunta]
+                })
+              }}
+        />
 
       </div>
     </div>
